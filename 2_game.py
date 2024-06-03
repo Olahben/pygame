@@ -69,6 +69,7 @@ character_width = 50
 character_height = 50
 character_color = colorDict["white"]
 main_character = MainCharacter(character_width, character_height, character_color)
+all_sprites.add(main_character)
 
 
 # start
