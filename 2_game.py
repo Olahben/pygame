@@ -67,9 +67,22 @@ game_screen.screen.blit(textDict["hard"], hard_position)
 
 pygame.display.flip()
 
-# game
+# game not running
 game_mode_chosen = False
+game_mode = ""
 while game_mode_chosen == False:
-    # listen for mouse click event
-    # check which level it hits
-    # define level
+    e = pygame.event.get()
+    for event in e:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pos = pygame.mouse.get_pos()
+            if textDict["easy"].get_rect(topleft=easy_position).collidepoint(pos):
+                print("Easy mode chosen")
+                game_mode = "easy"
+            elif textDict["medium"].get_rect(topleft=medium_position).collidepoint(pos):
+                print("Medium mode chosen")
+                game_mode = "medium"
+            elif textDict["hard"].get_rect(topleft=hard_position).collidepoint(pos):
+                print("Hard mode chosen")
+                game_mode = "hard"
+
+# game running / initialization
