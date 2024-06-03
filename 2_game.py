@@ -16,12 +16,15 @@ colorDict = {
 }
 
 # text
+title_font = pygame.font.Font(None, 36)
+sub_title_font = pygame.font.Font(None, 36)
+
 textDict = {
-    "welcome": "Choose your level",
-    "hard": "hard",
-    "medium": "medium",
-    "easy": "easy",
-    "end": "The game is over"
+    "welcome": title_font.render("Choose your level", True, colorDict["text"]),
+    "hard": sub_title_font.render("hard", True, colorDict["text"]),
+    "medium": sub_title_font.render("medium", True, colorDict["text"]),
+    "easy": sub_title_font.render("easy", True, colorDict["text"]),
+    "end": sub_title_font.render("The game is over", True, colorDict["text"])
 }
 
 # screen and sizes initialization
@@ -50,4 +53,5 @@ character_height = 50
 main_character = MainCharacter(character_width, character_height)
 main_character.draw()
 
-#
+# start
+game_screen.screen.blit(textDict["welcome"], game_screen.half_res)
