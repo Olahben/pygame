@@ -1,5 +1,6 @@
 import pygame
 import time
+import utils
 
 # Spill med karakterer som skyter partikler og faar poeng for hvert skutt partikkel
 # bruk vektorer
@@ -11,6 +12,7 @@ pygame.init()
 # colors
 colorDict = {
     "B": (0, 0, 0),
+    "background": (0, 0, 0),
     "text": (255, 255, 255),
     "white": (255, 255, 255)
 }
@@ -88,12 +90,15 @@ while game_mode_chosen == False:
             if textDict["easy"].get_rect(topleft=easy_position).collidepoint(pos):
                 print("Easy mode chosen")
                 game_mode = "easy"
+                utils.clearScreenText(game_screen.screen, colorDict["background"], all_sprites)
             elif textDict["medium"].get_rect(topleft=medium_position).collidepoint(pos):
                 print("Medium mode chosen")
                 game_mode = "medium"
+                utils.clearScreenText(game_screen.screen, colorDict["background"], all_sprites)
             elif textDict["hard"].get_rect(topleft=hard_position).collidepoint(pos):
                 print("Hard mode chosen")
                 game_mode = "hard"
+                utils.clearScreenText(game_screen.screen, colorDict["background"], all_sprites)
 
 # game running / initialization
 all_sprites.update()
