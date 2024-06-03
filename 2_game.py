@@ -15,17 +15,6 @@ colorDict = {
     "white": (255, 255, 255)
 }
 
-# text
-title_font = pygame.font.Font(None, 36)
-sub_title_font = pygame.font.Font(None, 36)
-
-textDict = {
-    "welcome": title_font.render("Choose your level", True, colorDict["text"]),
-    "hard": sub_title_font.render("hard", True, colorDict["text"]),
-    "medium": sub_title_font.render("medium", True, colorDict["text"]),
-    "easy": sub_title_font.render("easy", True, colorDict["text"]),
-    "end": sub_title_font.render("The game is over", True, colorDict["text"])
-}
 
 # screen and sizes initialization
 class GameScreen:
@@ -41,6 +30,23 @@ width = 800
 height = 600
 game_screen = GameScreen(width, height)
 
+# text
+title_font = pygame.font.Font(None, 36)
+sub_title_font = pygame.font.Font(None, 36)
+
+textDict = {
+    "welcome": title_font.render("Choose your level", True, colorDict["text"]),
+    "hard": sub_title_font.render("hard", True, colorDict["text"]),
+    "medium": sub_title_font.render("medium", True, colorDict["text"]),
+    "easy": sub_title_font.render("easy", True, colorDict["text"]),
+    "end": sub_title_font.render("The game is over", True, colorDict["text"])
+}
+
+welcome_position = (game_screen.x_half - textDict["welcome"].get_width() // 2, game_screen.y_half - 200)
+easy_position = (game_screen.x_half - textDict["easy"].get_width() // 2, game_screen.y_half - 100)
+medium_position = (game_screen.x_half - textDict["medium"].get_width() // 2, game_screen.y_half)
+hard_position = (game_screen.x_half - textDict["hard"].get_width() // 2, game_screen.y_half + 100)
+
 # visible objects, characters, initialization of them
 class MainCharacter:
     def __init__(self, width, height):
@@ -54,4 +60,16 @@ main_character = MainCharacter(character_width, character_height)
 main_character.draw()
 
 # start
-game_screen.screen.blit(textDict["welcome"], game_screen.half_res)
+game_screen.screen.blit(textDict["welcome"], welcome_position)
+game_screen.screen.blit(textDict["easy"], easy_position)
+game_screen.screen.blit(textDict["medium"], medium_position)
+game_screen.screen.blit(textDict["hard"], hard_position)
+
+pygame.display.flip()
+
+# game
+game_mode_chosen = False
+while game_mode_chosen == False:
+    # listen for mouse click event
+    # check which level it hits
+    # define level
