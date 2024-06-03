@@ -48,16 +48,26 @@ medium_position = (game_screen.x_half - textDict["medium"].get_width() // 2, gam
 hard_position = (game_screen.x_half - textDict["hard"].get_width() // 2, game_screen.y_half + 100)
 
 # visible objects, characters, initialization of them
-class MainCharacter:
-    def __init__(self, width, height):
-        self.character = pygame.Rect(game_screen.x_half, game_screen.y_half, width, height)
+all_sprites = pygame.sprite.Group()
+
+class MainCharacter(pygame.sprite.Sprite):
+    def __init__(self, width, height, color):
+        super().__init__()
+        self.image = pygame.Surface([width, height])
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+        self.rect.center = (game_screen.x_half, game_screen.y_half)
     def draw(self):
         pygame.draw.rect(game_screen.screen, colorDict["B"], self.character)
+    def updatePos(self):
+        pass
+        # later
 
 character_width = 50
 character_height = 50
-main_character = MainCharacter(character_width, character_height)
-main_character.draw()
+character_color = colorDict["white"]
+main_character = MainCharacter(character_width, character_height, character_color)
+
 
 # start
 game_screen.screen.blit(textDict["welcome"], welcome_position)
@@ -86,3 +96,5 @@ while game_mode_chosen == False:
                 game_mode = "hard"
 
 # game running / initialization
+all_sprites.update()
+all_sprites.draw(game_screen.screen)
