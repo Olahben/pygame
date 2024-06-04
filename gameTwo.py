@@ -142,10 +142,13 @@ class Particle(pygame.sprite.Sprite):
         for bullet in all_bullets:
             collided_particles = pygame.sprite.spritecollide(bullet, all_particles, True)
             if collided_particles:
-                all_bullets.remove(bullet)
-                all_sprites.remove(bullet)
-                all_particles.remove(self)
-                all_sprites.remove(self)
+                bullet.kill()
+                self.kill()
+        collided_character = pygame.sprite.spritecollide(main_character, all_particles, True)
+        if collided_character:
+            main_character.kill()
+            self.kill()
+            return True
 
 particle_height = 25
 particle_width = 25
@@ -205,7 +208,11 @@ while running:
     
     game_screen.screen.fill(colorDict["background"])
     all_sprites.draw(game_screen.screen)
-    all_sprites.update()
+    for sprite in all_sprites:
+        end = sprite.update()
+        if end:
+            running = False
+            break
     pygame.display.flip()
     pygame.time.Clock().tick(30)
 
