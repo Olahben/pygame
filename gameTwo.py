@@ -135,6 +135,12 @@ class Particle(pygame.sprite.Sprite):
         if self.rect.y > height:
             all_sprites.remove(self)
 
+particle_height = 25
+particle_width = 25
+particle_size = pygame.Vector2(particle_height, particle_width)
+particle_color = colorDict["white"]
+particle_speed = 8
+
 # start
 game_screen.screen.blit(textDict["welcome"], welcome_position)
 game_screen.screen.blit(textDict["easy"], easy_position)
@@ -180,7 +186,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
-    
+    # rendering particles
+    particle = Particle(particle_size, particle_color, particle_speed)
+    utils.renderParticle(particle, game_mode, all_sprites)
     
     game_screen.screen.fill(colorDict["background"])
     all_sprites.draw(game_screen.screen)
