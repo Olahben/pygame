@@ -90,6 +90,16 @@ character_color = colorDict["white"]
 main_character = MainCharacter(character_width, character_height, character_color)
 all_sprites.add(main_character)
 
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, width, height, color):
+        super().__init__()
+        self.image = ([width, height])
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+        self.speed = 1
+    def update(self):
+
+
 # start
 game_screen.screen.blit(textDict["welcome"], welcome_position)
 game_screen.screen.blit(textDict["easy"], easy_position)
@@ -134,10 +144,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+    
     game_screen.screen.fill(colorDict["background"])
     all_sprites.draw(game_screen.screen)
     all_sprites.update()
     pygame.display.flip()
-    pygame.time.Clock().tick(60)
+    pygame.time.Clock().tick(30)
 
 pygame.quit()
