@@ -104,6 +104,7 @@ class MainCharacter(pygame.sprite.Sprite):
                 bullet_origin_pos = pygame.Vector2(character_pos.x + bullet_width + 2, character_pos.y)
                 bullet = Bullet(bullet_size, bullet_color, bullet_origin_pos, bullet_speed)
                 all_sprites.add(bullet)
+                all_bullets.add(bullet)
                 self.time_last_shot = time.time()
 
         # Keep the sprite on the screen
@@ -136,6 +137,13 @@ class Particle(pygame.sprite.Sprite):
         self.rect.y += self.speed
         if self.rect.y > height:
             all_sprites.remove(self)
+        for bullet in all_bullets:
+            collided_particles = pygame.sprite.spritecollide(bullet, all_particles, True)
+            if collided_particles:
+                all_bullets.remove(bullet)
+                all_sprites.remove(bullet)
+                all_particles.remove(self)
+                all_sprites.remove(self)
 
 particle_height = 25
 particle_width = 25
