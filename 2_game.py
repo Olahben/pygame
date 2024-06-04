@@ -98,7 +98,9 @@ class MainCharacter(pygame.sprite.Sprite):
             print(bullet_ideal_time_between_shot)
             if time.time() - self.time_last_shot > bullet_ideal_time_between_shot:
                 character_pos = pygame.Vector2(self.rect.x, self.rect.y)
-                bullet = Bullet(bullet_size, bullet_color, character_pos, bullet_speed)
+                # Shoot the bullet from the center of the character
+                bullet_origin_pos = pygame.Vector2(character_pos.x + bullet_width + 2, character_pos.y)
+                bullet = Bullet(bullet_size, bullet_color, bullet_origin_pos, bullet_speed)
                 all_sprites.add(bullet)
                 self.time_last_shot = time.time()
 
