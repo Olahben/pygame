@@ -53,12 +53,12 @@ hard_position = (game_screen.x_half - textDict["hard"].get_width() // 2, game_sc
 all_sprites = pygame.sprite.Group()
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, size, color, pos):
+    def __init__(self, size, color, pos, speed):
         super().__init__()
         self.image = pygame.Surface([size.x, size.y])
         self.image.fill(color)
         self.rect = self.image.get_rect()
-        self.speed = 5
+        self.speed = speed
         self.rect.x = pos.x
         self.rect.y = pos.y
     def update(self):
@@ -71,6 +71,7 @@ bullet_width = 15
 bullet_height = 40
 bullet_size = pygame.Vector2(bullet_width, bullet_height)
 bullet_color = colorDict["white"]
+bullet_speed = 5
 
 class MainCharacter(pygame.sprite.Sprite):
     def __init__(self, size, color):
@@ -80,6 +81,7 @@ class MainCharacter(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (game_screen.x_half, game_screen.y_half)
         self.speed = 5
+        self.time_last_shot = time.time()
     def draw(self):
         pygame.draw.rect(game_screen.screen, colorDict["B"], self.character)
     def update(self):
@@ -93,9 +95,12 @@ class MainCharacter(pygame.sprite.Sprite):
         if keys[pygame.K_DOWN]:
             self.rect.y += self.speed
         if keys[pygame.K_SPACE]:
-            character_pos = pygame.Vector2(self.rect.x, self.rect.y)
-            bullet = Bullet(bullet_size, bullet_color, character_pos)
-            all_sprites.add(bullet)
+            print(bullet_ideal_time_between_shot)
+            if time.time() - self.time_last_shot > bullet_ideal_time_between_shot:
+                character_pos = pygame.Vector2(self.rect.x, self.rect.y)
+                bullet = Bullet(bullet_size, bullet_color, character_pos, bullet_speed)
+                all_sprites.add(bullet)
+                self.time_last_shot = time.time()
 
         # Keep the sprite on the screen
         if self.rect.right > width:
@@ -112,6 +117,7 @@ character_width = 50
 character_height = 50
 character_size = pygame.Vector2(character_width, character_height)
 character_color = colorDict["white"]
+bullet_ideal_time_between_shot = 0.5
 main_character = MainCharacter(character_size, character_color)
 all_sprites.add(main_character)
 
