@@ -63,6 +63,9 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.y = pos.y
     def update(self):
         self.rect.y -= self.speed
+        if self.rect.y < -bullet_size.y:
+            all_sprites.remove(self)
+        print(all_sprites)
 
 bullet_width = 15
 bullet_height = 40
