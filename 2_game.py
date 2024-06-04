@@ -59,18 +59,36 @@ class MainCharacter(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.center = (game_screen.x_half, game_screen.y_half)
+        self.speed = 5
     def draw(self):
         pygame.draw.rect(game_screen.screen, colorDict["B"], self.character)
-    def updatePos(self):
-        pass
-        # later
+    def update(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.rect.x -= self.speed
+        if keys[pygame.K_RIGHT]:
+            self.rect.x += self.speed
+        if keys[pygame.K_UP]:
+            self.rect.y -= self.speed
+        if keys[pygame.K_DOWN]:
+            self.rect.y += self.speed
+
+        # Keep the sprite on the screen
+        if self.rect.right > width:
+            self.rect.right = width
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.bottom > height:
+            self.rect.bottom = height
+        if self.rect.top < 0:
+            self.rect.top = 0
+
 
 character_width = 50
 character_height = 50
 character_color = colorDict["white"]
 main_character = MainCharacter(character_width, character_height, character_color)
 all_sprites.add(main_character)
-
 
 # start
 game_screen.screen.blit(textDict["welcome"], welcome_position)
@@ -91,16 +109,32 @@ while game_mode_chosen == False:
             if textDict["easy"].get_rect(topleft=easy_position).collidepoint(pos):
                 print("Easy mode chosen")
                 game_mode = "easy"
+                game_mode_chosen = True
                 utils.clearScreenText(game_screen.screen, colorDict["background"], all_sprites)
             elif textDict["medium"].get_rect(topleft=medium_position).collidepoint(pos):
                 print("Medium mode chosen")
                 game_mode = "medium"
+                game_mode_chosen = True
                 utils.clearScreenText(game_screen.screen, colorDict["background"], all_sprites)
             elif textDict["hard"].get_rect(topleft=hard_position).collidepoint(pos):
                 print("Hard mode chosen")
                 game_mode = "hard"
+                game_mode_chosen = True
                 utils.clearScreenText(game_screen.screen, colorDict["background"], all_sprites)
 
 # game running / initialization
+game_screen.screen.fill(colorDict["background"])
 all_sprites.update()
 all_sprites.draw(game_screen.screen)
+pygame.display.flip()
+
+running = True
+while running:
+    # Handle events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    all_sprites.update()
+    pygame.display.flip()
+
+pygame.quit()
