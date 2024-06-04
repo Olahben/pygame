@@ -134,7 +134,10 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+    game_screen.screen.fill(colorDict["background"])
+    all_sprites.draw(game_screen.screen)
     all_sprites.update()
     pygame.display.flip()
+    pygame.time.Clock().tick(60)
 
 pygame.quit()
