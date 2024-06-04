@@ -53,13 +53,14 @@ hard_position = (game_screen.x_half - textDict["hard"].get_width() // 2, game_sc
 all_sprites = pygame.sprite.Group()
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, size, color):
+    def __init__(self, size, color, pos):
         super().__init__()
         self.image = pygame.Surface([size.x, size.y])
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.speed = 5
-        self.rect
+        self.rect.x = pos.x
+        self.rect.y = pos.y
     def update(self):
         self.rect.y -= self.speed
 
@@ -89,7 +90,8 @@ class MainCharacter(pygame.sprite.Sprite):
         if keys[pygame.K_DOWN]:
             self.rect.y += self.speed
         if keys[pygame.K_SPACE]:
-            bullet = Bullet(bullet_size, bullet_color)
+            character_pos = pygame.Vector2(self.rect.x, self.rect.y)
+            bullet = Bullet(bullet_size, bullet_color, character_pos)
             all_sprites.add(bullet)
 
         # Keep the sprite on the screen
