@@ -123,6 +123,18 @@ bullet_ideal_time_between_shot = 0.5
 main_character = MainCharacter(character_size, character_color)
 all_sprites.add(main_character)
 
+class Particle(pygame.sprite.Sprite):
+    def __init__(self, size, color, speed):
+        super().__init__()
+        self.image = pygame.Surface([size.x, size.y])
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+        self.speed = speed
+    def update(self):
+        self.rect.y += self.speed
+        if self.rect.y > height:
+            all_sprites.remove(self)
+
 # start
 game_screen.screen.blit(textDict["welcome"], welcome_position)
 game_screen.screen.blit(textDict["easy"], easy_position)
@@ -167,6 +179,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+    
+    
     
     game_screen.screen.fill(colorDict["background"])
     all_sprites.draw(game_screen.screen)
