@@ -51,6 +51,8 @@ hard_position = (game_screen.x_half - textDict["hard"].get_width() // 2, game_sc
 
 # visible objects, characters, initialization of them
 all_sprites = pygame.sprite.Group()
+all_particles = pygame.sprite.Group()
+all_bullets = pygame.sprite.Group()
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, size, color, pos, speed):
@@ -65,7 +67,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.y -= self.speed
         if self.rect.y < -bullet_size.y:
             all_sprites.remove(self)
-        print(all_sprites)
+
 
 bullet_width = 15
 bullet_height = 40
@@ -188,7 +190,7 @@ while running:
     
     # rendering particles
     particle = Particle(particle_size, particle_color, particle_speed)
-    utils.renderParticle(particle, game_mode, all_sprites)
+    utils.renderParticle(particle, game_mode, all_sprites, all_particles)
     
     game_screen.screen.fill(colorDict["background"])
     all_sprites.draw(game_screen.screen)
