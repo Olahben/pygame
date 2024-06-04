@@ -96,9 +96,9 @@ class Bullet(pygame.sprite.Sprite):
         self.image = ([width, height])
         self.image.fill(color)
         self.rect = self.image.get_rect()
-        self.speed = 1
+        self.speed = 5
     def update(self):
-
+        self.rect.y -= self.speed
 
 # start
 game_screen.screen.blit(textDict["welcome"], welcome_position)
