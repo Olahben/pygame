@@ -52,10 +52,26 @@ hard_position = (game_screen.x_half - textDict["hard"].get_width() // 2, game_sc
 # visible objects, characters, initialization of them
 all_sprites = pygame.sprite.Group()
 
-class MainCharacter(pygame.sprite.Sprite):
-    def __init__(self, width, height, color):
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, size, color):
         super().__init__()
-        self.image = pygame.Surface([width, height])
+        self.image = pygame.Surface([size.x, size.y])
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+        self.speed = 5
+        self.rect
+    def update(self):
+        self.rect.y -= self.speed
+
+bullet_width = 15
+bullet_height = 40
+bullet_size = pygame.Vector2(bullet_width, bullet_height)
+bullet_color = colorDict["white"]
+
+class MainCharacter(pygame.sprite.Sprite):
+    def __init__(self, size, color):
+        super().__init__()
+        self.image = pygame.Surface([size.x, size.y])
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.center = (game_screen.x_half, game_screen.y_half)
@@ -72,6 +88,9 @@ class MainCharacter(pygame.sprite.Sprite):
             self.rect.y -= self.speed
         if keys[pygame.K_DOWN]:
             self.rect.y += self.speed
+        if keys[pygame.K_SPACE]:
+            bullet = Bullet(bullet_size, bullet_color)
+            all_sprites.add(bullet)
 
         # Keep the sprite on the screen
         if self.rect.right > width:
@@ -86,19 +105,10 @@ class MainCharacter(pygame.sprite.Sprite):
 
 character_width = 50
 character_height = 50
+character_size = pygame.Vector2(character_width, character_height)
 character_color = colorDict["white"]
-main_character = MainCharacter(character_width, character_height, character_color)
+main_character = MainCharacter(character_size, character_color)
 all_sprites.add(main_character)
-
-class Bullet(pygame.sprite.Sprite):
-    def __init__(self, width, height, color):
-        super().__init__()
-        self.image = ([width, height])
-        self.image.fill(color)
-        self.rect = self.image.get_rect()
-        self.speed = 5
-    def update(self):
-        self.rect.y -= self.speed
 
 # start
 game_screen.screen.blit(textDict["welcome"], welcome_position)
