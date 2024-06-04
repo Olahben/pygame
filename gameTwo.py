@@ -1,6 +1,7 @@
 import pygame
 import time
 import utils
+import random
 
 # Spill med karakterer som skyter partikler og faar poeng for hvert skutt partikkel
 # bruk vektorer
@@ -127,11 +128,12 @@ main_character = MainCharacter(character_size, character_color)
 all_sprites.add(main_character)
 
 class Particle(pygame.sprite.Sprite):
-    def __init__(self, size, color, speed):
+    def __init__(self, size, color, speed, x):
         super().__init__()
         self.image = pygame.Surface([size.x, size.y])
         self.image.fill(color)
         self.rect = self.image.get_rect()
+        self.rect.x = x
         self.speed = speed
     def update(self):
         self.rect.y += self.speed
@@ -197,7 +199,8 @@ while running:
             running = False
     
     # rendering particles
-    particle = Particle(particle_size, particle_color, particle_speed)
+    particle_x_start = random.randint(0, width)
+    particle = Particle(particle_size, particle_color, particle_speed, particle_x_start)
     utils.renderParticle(particle, game_mode, all_sprites, all_particles)
     
     game_screen.screen.fill(colorDict["background"])
