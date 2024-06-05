@@ -24,17 +24,20 @@ colorDict = {
 
 # screen and sizes initialization
 class GameScreen:
-    def __init__(self, width, height):
+    def __init__(self, width, height, image_path):
         # Vector
         self.resolution = pygame.math.Vector2(width, height)
         self.screen = pygame.display.set_mode(self.resolution)
         self.half_res = self.resolution // 2
         self.x_half = self.resolution.x // 2
         self.y_half = self.resolution.y // 2
+        self.background = pygame.image.load(image_path)
+        self.background = pygame.transform.scale(self.background, (width, height))
 
 width = 800
 height = 600
-game_screen = GameScreen(width, height)
+image_path = "data/bohdan_1.png"
+game_screen = GameScreen(width, height, image_path)
 
 # text
 title_font = pygame.font.Font(None, 36)
@@ -218,6 +221,9 @@ while running:
     # rendering points
     textDict["points"] =  sub_title_font.render("Points: {}".format(points), True, colorDict["text"])
     game_screen.screen.blit(textDict["points"], points_position)
+
+    game_screen.screen.blit(game_screen.background, (0, 0))
+
 
     all_sprites.draw(game_screen.screen)
     for sprite in all_sprites:
