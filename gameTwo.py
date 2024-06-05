@@ -52,6 +52,7 @@ welcome_position = (game_screen.x_half - textDict["welcome"].get_width() // 2, g
 easy_position = (game_screen.x_half - textDict["easy"].get_width() // 2, game_screen.y_half - 100)
 medium_position = (game_screen.x_half - textDict["medium"].get_width() // 2, game_screen.y_half)
 hard_position = (game_screen.x_half - textDict["hard"].get_width() // 2, game_screen.y_half + 100)
+end_position = (game_screen.x_half - textDict["end"].get_width() // 2, game_screen.y_half)
 points_position = (0, 0)
 
 # visible objects, characters, initialization of them
@@ -222,6 +223,9 @@ while running:
     for sprite in all_sprites:
         end = sprite.update()
         if end:
+            game_screen.screen.blit(textDict["end"], end_position)
+            pygame.display.flip()
+            pygame.time.wait(3000)
             running = False
             break
     pygame.display.flip()
