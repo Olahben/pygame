@@ -8,6 +8,9 @@ import random
 # bruk objektorientert programmering
 # bruk kollisjoner
 
+# game global variables
+points = 0
+
 pygame.init()
 
 # colors
@@ -42,13 +45,14 @@ textDict = {
     "hard": sub_title_font.render("hard", True, colorDict["text"]),
     "medium": sub_title_font.render("medium", True, colorDict["text"]),
     "easy": sub_title_font.render("easy", True, colorDict["text"]),
-    "end": sub_title_font.render("The game is over", True, colorDict["text"])
+    "end": sub_title_font.render("The game is over", True, colorDict["text"]),
 }
 
 welcome_position = (game_screen.x_half - textDict["welcome"].get_width() // 2, game_screen.y_half - 200)
 easy_position = (game_screen.x_half - textDict["easy"].get_width() // 2, game_screen.y_half - 100)
 medium_position = (game_screen.x_half - textDict["medium"].get_width() // 2, game_screen.y_half)
 hard_position = (game_screen.x_half - textDict["hard"].get_width() // 2, game_screen.y_half + 100)
+points_position = (0, 0)
 
 # visible objects, characters, initialization of them
 all_sprites = pygame.sprite.Group()
@@ -136,6 +140,7 @@ class Particle(pygame.sprite.Sprite):
         self.rect.x = x
         self.speed = speed
     def update(self):
+        global points
         self.rect.y += self.speed
         if self.rect.y > height:
             all_sprites.remove(self)
@@ -144,6 +149,7 @@ class Particle(pygame.sprite.Sprite):
             if collided_particles:
                 bullet.kill()
                 self.kill()
+                points += 1
         collided_character = pygame.sprite.spritecollide(main_character, all_particles, True)
         if collided_character:
             main_character.kill()
@@ -205,8 +211,13 @@ while running:
     particle_x_start = random.randint(0, width)
     particle = Particle(particle_size, particle_color, particle_speed, particle_x_start)
     utils.renderParticle(particle, game_mode, all_sprites, all_particles)
-    
+
     game_screen.screen.fill(colorDict["background"])
+
+    # rendering points
+    textDict["points"] =  sub_title_font.render("Points: {}".format(points), True, colorDict["text"])
+    game_screen.screen.blit(textDict["points"], points_position)
+
     all_sprites.draw(game_screen.screen)
     for sprite in all_sprites:
         end = sprite.update()
